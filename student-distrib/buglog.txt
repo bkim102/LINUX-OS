@@ -1,0 +1,44 @@
+Buglog
+
+CP1
+	i) Paging not working (Major Bug): The issue was with the addresses used to create the PDE and PTE's
+		debugged this by drawing out the structure for paging and writing down the addresses
+		
+	ii) RTC gave 1 interrupt(Major Bug) - The issue was caused due to the EOI being sent to the wrong port
+		debugging for this wa started by stepping gthrough each line of code of the RTC interrupt
+		handler and careful inspection of the effect each line of code had, followed by comparison
+		of code given in lecture slides of the PIC to that of our PIC.
+
+CP2
+	i) New line charcter not present in read and no scrolling (Minor Bug) - The issue was with update the position of the curson
+		debugging this was done by stepping through the reading of each character and stepping through each line of code
+		with all positional variables being displayed.
+	ii) Unknown Scancodes (Minor Bug)- This issue was caused because of how the #define works in C as it interprets an unsigned hex number
+		debugging this was done by trying to change all #defines to local variables and after that trying to print them out
+		this showed that they were being interpreted as unsigned numbers and then we changed the definitions to decimal  
+	iii) Write printing garbage - This issue was caused due to write not being implemented as specified ( no nbytes taken in to
+													 see how much to write)
+		debugging this was done by going through the code multiple times in gdb and then reading the documentation again to
+		realise that it was not up to spec
+
+CP3
+	i) Halt not working properly - Halt was returning to the wrong location instead of execute and thus was not returning
+		debugging this was done by stepping through each line of the execute and halt process and comparing the stacks at both
+		the situations and this resulted in us realising that the esp and ebp were not restored properly. On further inspection
+		the issue was that instead of restoring the esp and ebp at execute we were restoring it to that of the parent process
+
+CP4
+	i) ls not working- The issue was that there was garbage being printed when doing ls
+		debugging this was following the whole trail of the program through gdb. This made us realise that we were returning the
+		correct number of bytes read thus ls was placing the newline character in the wrong place and sending the wrong
+		nbytes to the terminal_write
+
+CP5
+	i) Page Fault on switching - The issue was with switching terminals, as we did so the program would page fault
+		debugging this was done by stepping through the whole process and finding that it was breaking when returning to user space
+		this led us to checking the pde to realise that we were not changing the PDE when we switched processes to load in a differnet
+		userspace.
+	ii) Page fault on executable switching - The issue was with executing commands after returning back to an already open shell
+		debugging this was done by following the code from execute onwards. The program would break always in the test program when
+		it made a function call. Made sure of this by making an empty user level program which did not break. This led us to inspect the
+		stack being used for the system calls only to realise that when switching tasks we were not restoring the tss state.

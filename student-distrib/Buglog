@@ -1,0 +1,20 @@
+Buglog
+
+CP1
+	i) Paging not working -wrong Addr 
+	ii) RTC gave 1 interrupt - EOI to wrong port
+
+CP2
+	i) No terminal initially (no scroll)
+	ii) Unknown Scancodes 
+	iii) Write with wrong inputs
+
+CP3
+	i) Halt not working properly
+
+CP4
+	i) ls not working 
+
+CP5
+	i) Page Fault on switching. (PDE not reloaded properly)
+	ii) Page fault on executable switching, TSS not loaded properly
